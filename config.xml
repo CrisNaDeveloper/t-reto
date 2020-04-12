@@ -132,7 +132,7 @@
     <engine name="ios" spec="^4.5.5" />
     <engine name="android" spec="^7.1.4" />
     <engine name="browser" spec="^5.0.4" />
-    <plugin name="cordova-plugin-admobpro" source="^npm">
+    <plugin name="cordova-plugin-admobpro" source="npm">
         <variable name="PLAY_SERVICES_VERSION" value="16.0.0" />
         <variable name="ADMOB_APP_ID" value="ca-app-pub-2512504278709047/8783949487" />
     </plugin>
