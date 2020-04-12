@@ -2,7 +2,7 @@
 <widget id="com.apperse.t-reto" version="51.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
     <name>t-reto</name>
     <description>
-        Otra manera de hacer los deberes
+        Reta a tus amigos a las preguntas que tu quieras.
     </description>
     <author email="arturodormilon@gmail.com" href="http://phonegap.com">
        Apperse
