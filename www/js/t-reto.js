@@ -1,160 +1,223 @@
-$( document ).bind( "mobileinit", function() {
-    // Make your jQuery Mobile framework configuration changes here!
+$(document).bind("mobileinit", function () {
+	// Make your jQuery Mobile framework configuration changes here!
 
-    $.mobile.allowCrossDomainPages = true;
+	$.mobile.allowCrossDomainPages = true;
 });
 var config = {
-	apiKey: "AIzaSyDiU2xMrsqPfiT0n4vnIa9OAIOZMjAIVxo",
-	authDomain: "mis-deberes.firebaseapp.com",
-	databaseURL: "https://mis-deberes.firebaseio.com",
-	projectId: "mis-deberes",
-	storageBucket: "mis-deberes.appspot.com",
-	messagingSenderId: "616346485951",
-	appId: "1:616346485951:web:b512fb38900d74fe"
+	apiKey: "AIzaSyA-GWTHVrKrJvtASdFjC-YhsipC7Zhgdj4",
+	authDomain: "t-reto-f6198.firebaseapp.com",
+	databaseURL: "https://t-reto-f6198.firebaseio.com",
+	projectId: "t-reto-f6198",
+	storageBucket: "t-reto-f6198.appspot.com",
+	messagingSenderId: "846934377292",
+	appId: "1:846934377292:web:564c96fbe90b675c1d45e9",
+	measurementId: "G-1NYT902SQD"
 };
 
 
-      if(!firebase.apps.length){
-        firebase.initializeApp(config);
-		otramaneralogin();
-      }
-
-var provider="";
-
-	
-function logarse(provider){
+if (!firebase.apps.length) {
+	firebase.initializeApp(config);
+	otramaneralogin();
 
 
-firebase.auth().languageCode = 'es_es';
+	gapi.load('client:auth2', start);
+}
 
-	if(provider=="google"){
-			provider= new firebase.auth.GoogleAuthProvider();
-		
+var provider = "";
+
+
+
+
+function logarse(provider) {
+
+
+	firebase.auth().languageCode = 'es_es';
+
+	if (provider == "google") {
+		provider = new firebase.auth.GoogleAuthProvider();
+
 
 	}
-	if(provider=="facebook"){
-			provider= new firebase.auth.FacebookAuthProvider();
+	if (provider == "facebook") {
+		provider = new firebase.auth.FacebookAuthProvider();
 	}
-	
-// Step 1.
-// User tries to sign in to Google.
-firebase.auth().signInWithPopup(provider).catch(function(error) {
-  // An error happened.
-  if (error.code === 'auth/account-exists-with-different-credential') {
-    // Step 2.
-    // User's email already exists.
-    // The pending Google credential.
-    var pendingCred = error.credential;
-    // The provider account's email address.
-    var email = error.email;
-    // Get sign-in methods for this email.
-    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
-      // Step 3.
-      // If the user has several sign-in methods,
-      // the first method in the list will be the "recommended" method to use.
-      if (methods[0] === 'password') {
-        // Asks the user their password.
-        // In real scenario, you should handle this asynchronously.
-        var password = promptUserForPassword(); // TODO: implement promptUserForPassword.
-        auth.signInWithEmailAndPassword(email, password).then(function(user) {
-          // Step 4a.
-          return user.linkWithCredential(pendingCred);
-        }).then(function() {
-          // Google account successfully linked to the existing Firebase user.
-          goToApp();
-        });
-        return;
-      }
-      // All the other cases are external providers.
-      // Construct provider object for that provider.
-      // TODO: implement getProviderForProviderId.
-      var provider = getProviderForProviderId(methods[0]);
-      // At this point, you should let the user know that they already has an account
-      // but with a different provider, and let them validate the fact they want to
-      // sign in with this provider.
-      // Sign in to provider. Note: browsers usually block popup triggered asynchronously,
-      // so in real scenario you should ask the user to click on a "continue" button
-      // that will trigger the signInWithPopup.
-      firebase.auth().signInWithPopup(provider).then(function(result) {
-        // Remember that the user may have signed in with an account that has a different email
-        // address than the first one. This can happen as Firebase doesn't control the provider's
-        // sign in flow and the user is free to login using whichever account they own.
-        // Step 4b.
-        // Link to Google credential.
-        // As we have access to the pending credential, we can directly call the link method.
-        result.user.linkAndRetrieveDataWithCredential(pendingCred).then(function(usercred) {
-          // Google account successfully linked to the existing Firebase user.
-          goToApp();
-        });
-      });
-    });
-  }
-});
+
+	// Step 1.
+	// User tries to sign in to Google.
+	firebase.auth().signInWithPopup(provider).catch(function (error) {
+		// An error happened.
+		if (error.code === 'auth/account-exists-with-different-credential') {
+			// Step 2.
+			// User's email already exists.
+			// The pending Google credential.
+			var pendingCred = error.credential;
+			// The provider account's email address.
+			var email = error.email;
+			// Get sign-in methods for this email.
+			firebase.auth().fetchSignInMethodsForEmail(email).then(function (methods) {
+				// Step 3.
+				// If the user has several sign-in methods,
+				// the first method in the list will be the "recommended" method to use.
+				if (methods[0] === 'password') {
+					// Asks the user their password.
+					// In real scenario, you should handle this asynchronously.
+					var password = promptUserForPassword(); // TODO: implement promptUserForPassword.
+					firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
+						// Step 4a.
+						return user.linkWithCredential(pendingCred);
+					}).then(function () {
+						// Google account successfully linked to the existing Firebase user.
+						goToApp();
+					});
+					return;
+				}
+				// All the other cases are external providers.
+				// Construct provider object for that provider.
+				// TODO: implement getProviderForProviderId.
+				var provider = getProviderForProviderId(methods[0]);
+				// At this point, you should let the user know that they already has an account
+				// but with a different provider, and let them validate the fact they want to
+				// sign in with this provider.
+				// Sign in to provider. Note: browsers usually block popup triggered asynchronously,
+				// so in real scenario you should ask the user to click on a "continue" button
+				// that will trigger the signInWithPopup.
+				firebase.auth().signInWithPopup(provider).then(function (result) {
+					// Remember that the user may have signed in with an account that has a different email
+					// address than the first one. This can happen as Firebase doesn't control the provider's
+					// sign in flow and the user is free to login using whichever account they own.
+					// Step 4b.
+					// Link to Google credential.
+					// As we have access to the pending credential, we can directly call the link method.
+					result.user.linkAndRetrieveDataWithCredential(pendingCred).then(function (usercred) {
+						// Google account successfully linked to the existing Firebase user.
+						goToApp();
+					});
+				});
+			});
+		}
+	});
 
 }
 
 
-function banner(){
-// select the right Ad Id according to platform
-  var admobid = {};
-  if( /(android)/i.test(navigator.userAgent) ) { // for android & amazon-fireos
-    admobid = {
-      banner: 'cca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-      interstitial: 'ca-app-pub-2512504278709047/8783949487'
-    };
-  } else if(/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
-    admobid = {
-      banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-      interstitial: 'ca-app-pub-2512504278709047/8783949487'
-    };
-  } else { // for windows phone
-    admobid = {
-      banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-      interstitial: 'ca-app-pub-2512504278709047/8783949487'
-    };
-  }
-  
-  if(AdMob) AdMob.createBanner({
-  adId: admobid.banner,
-  position: AdMob.AD_POSITION.TOP_CENTER,
-  autoShow: true });
-  
-  showBanner();
-  
+
+
+var idtok;
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user) {
+	  user.getIdToken().then(function(data) {
+		  alert("mitoken"+data);
+		idtok=data;
+	  });
+	}
+  });
+//GAME PLAY-->
+
+// 	var constants = constants || {}
+// // constants.CLIENT_ID = '613485686927-d6arn6f1abqum8r72bjgpccgiq48lj3t.apps.googleusercontent.com';
+// // constants.ACH_TRETO = 'CgkIj-HitO0REAIQAw';
+// // constants.LEAD_PUNTOS = 'CgkIj-HitO0REAIQAg';
+// // constants.EVENT_NEURONA = 'CgkIj-HitO0REAIQAQ';
+
+function start() {
+
+		
+		alert("token");
+		gapi.client.init({
+			apiKey: 'AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM',
+			clientId: '852389149871-cees77mik4826ncre8kkkdt81acf3ltl.apps.googleusercontent.com',
+		//	discoveryDocs: 'https://www.googleapis.com/games/v1/',
+			scope: 'https://www.googleapis.com/auth/games',
+		  })
+		//  gapi.client.setToken(idtok);
+		  // Loading is finished, so start the app
+		  .then(function() {
+			alert("paso2");
+			gapi.client.setToken(idtok);
+			gapi.client.setApiKey('AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM');
+		// 3. Initialize and make the API request.
+					gapi.client.request({
+						path: 'https://www.googleapis.com/games/v1/achievements',
+						methods: 'https://www.googleapis.com/games/v1/achievements',
+						params: { language: 'es', maxResults: 150, pageToken: idtok },
+						callback: function (response) {
+							console.log("esta es la respuesta" + response);
+								}
+					});
+		  });
+
+
+	
+	
+	
+};
+
+//FIN GAME PLAY
+
+
+
+function banner() {
+	// select the right Ad Id according to platform
+	var admobid = {};
+	if (/(android)/i.test(navigator.userAgent)) { // for android & amazon-fireos
+		admobid = {
+			banner: 'cca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+		};
+	} else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
+		admobid = {
+			banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+		};
+	} else { // for windows phone
+		admobid = {
+			banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+		};
+	}
+
+	if (AdMob) AdMob.createBanner({
+		adId: admobid.banner,
+		position: AdMob.AD_POSITION.TOP_CENTER,
+		autoShow: true
+	});
+
+	showBanner();
+
 }
 
 
 
-function otramaneralogin(){
-firebase.auth().useDeviceLanguage();
- var uiConfig = {
-   signInFlow: 'popup',
-        signInSuccessUrl: '#inicio',
-		
-        signInOptions: [
-          // Leave the lines as is for the providers you want to offer your users.
-        //  firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-     //     firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-      //    firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-     //     firebase.auth.GithubAuthProvider.PROVIDER_ID,
-          firebase.auth.EmailAuthProvider.PROVIDER_ID,
-     //     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
-       //   firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
-        ],
-        // tosUrl and privacyPolicyUrl accept either url string or a callback
-        // function.
-        // Terms of service url/callback.
-        tosUrl: 'index.html',
-        // Privacy policy url/callback.
-        privacyPolicyUrl: function() {
-          window.location.assign('#inicio');
-        }
-      };
+function otramaneralogin() {
+	firebase.auth().useDeviceLanguage();
+	var uiConfig = {
+		signInFlow: 'popup',
+		signInSuccessUrl: '#inicio',
 
-      // Initialize the FirebaseUI Widget using Firebase.
-      var ui = new firebaseui.auth.AuthUI(firebase.auth());
-      // The start method will wait until the DOM is loaded.
-      ui.start('#firebaseui-auth-container', uiConfig);
+		signInOptions: [
+			// Leave the lines as is for the providers you want to offer your users.
+			firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+			firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+			firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+			//     firebase.auth.GithubAuthProvider.PROVIDER_ID,
+			firebase.auth.EmailAuthProvider.PROVIDER_ID,
+			//     firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+			//   firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+		],
+		// tosUrl and privacyPolicyUrl accept either url string or a callback
+		// function.
+		// Terms of service url/callback.
+		tosUrl: 'index.html',
+		// Privacy policy url/callback.
+		privacyPolicyUrl: function () {
+			window.location.assign('#inicio');
+		}
+	};
+
+	// Initialize the FirebaseUI Widget using Firebase.
+	var ui = new firebaseui.auth.AuthUI(firebase.auth());
+	// The start method will wait until the DOM is loaded.
+	ui.start('#firebaseui-auth-container', uiConfig);
 
 }
 
@@ -172,7 +235,7 @@ function damefechayhora(snap) {
 	offset = snap.val();
 	timestamp = new Date().getTime() + offset;
 	//	timestamp=db.Timestamp;
-	
+
 
 
 	var d = new Date(timestamp);
@@ -248,7 +311,7 @@ var acertada = 0;
 var numrespaprobar = 0;
 var emailadministrador = "c_navarro_martinez@hotmail.com"
 var valorpremio = "";
-var textoPremio=""
+var textoPremio = ""
 
 
 
@@ -267,7 +330,7 @@ function aceptar_registro() {
 				transition: "slide",
 				reverse: true
 			})
-					$("#usu").empty();
+			$("#usu").empty();
 			leer_test(email);
 
 
@@ -294,12 +357,12 @@ function validar_usuario() {
 
 	firebase.auth().signInWithEmailAndPassword(email, password)
 		.then(function () {
-		
+
 			$.mobile.changePage("#inicio", {
 				transition: "slide",
 				reverse: true
 			});
-				
+
 
 		})
 		.catch(function (error) {
@@ -322,7 +385,7 @@ function recuperacontrasenna(emailAddress) {
 			alertify.success("ha ocurrido un error al enviar el mensaje");
 		});
 	} else {
-		alertify.error("Rellene el campo usuario" );
+		alertify.error("Rellene el campo usuario");
 	}
 }
 
@@ -376,76 +439,76 @@ function crear_test() {
 	} else {
 		if (valorcategoria == "--") {
 			alertify.error("Ha de seleccionar la categoria");
-		}else{
+		} else {
 
 
 
-				if ((isNaN(numrespaprobar)) || numrespaprobar == "" || numrespaprobar == 0) {
-					alertify.error("Ha de poner un número de respuestas para aprobar");
+			if ((isNaN(numrespaprobar)) || numrespaprobar == "" || numrespaprobar == 0) {
+				alertify.error("Ha de poner un número de respuestas para aprobar");
 
-				} else {
+			} else {
 
-					if (nom != "") {
+				if (nom != "") {
 
-						db.collection("tests").add({
-							nombre: nom,
-							numrespaprobar: numrespaprobar,
+					db.collection("tests").add({
+						nombre: nom,
+						numrespaprobar: numrespaprobar,
 
-							premio: valorpremio,
+						premio: valorpremio,
 
-							usuario_creador: usu,
-							timestamp: timestamp,
-							id_categoria: valorcategoria,
-							id_edad: valoredad
+						usuario_creador: usu,
+						timestamp: timestamp,
+						id_categoria: valorcategoria,
+						id_edad: valoredad
+
+					})
+						.then(function (docRef) {
+
+
+
+
+							$.mobile.changePage("#preguntas", {
+								transition: "slide",
+								reverse: true
+							});
+							for (var i = 1; i < 5; i++) {
+
+
+								var valboton = "guardar" + i;
+								var valradio = "radio" + i;
+								var valimput = "opcion" + i;
+
+
+								$("#" + valimput).show();
+								$("#" + valboton).removeClass("ui-disabled");
+								$('label[for="' + valradio + '"]').hide();
+								$('label[for="' + valimput + '"]').show();
+
+								document.getElementById(valradio).style.visibility = 'hidden';
+								$("#" + valboton).text("Opción " + i);
+								$("#" + valimput).val("");
+
+							}
+							alertify.success("Test creado");
+							console.log("Teste creado ", docRef.id);
+							id_test = docRef.id;
+							$('#divNivel').empty();
+
+							$('#divNivel').append("PREGUNTA: " + numpreguntas + " ACIERTOS PARA APROBAR: " + numrespaprobar);
+
+							$('#cabpreguntas').append(" PREGUNTAS DEL TEST: " + nom);
+
 
 						})
-							.then(function (docRef) {
+						.catch(function (error) {
 
-
-
-
-								$.mobile.changePage("#preguntas", {
-									transition: "slide",
-									reverse: true
-								});
-								for (var i = 1; i < 5; i++) {
-
-
-									var valboton = "guardar" + i;
-									var valradio = "radio" + i;
-									var valimput = "opcion" + i;
-
-
-									$("#" + valimput).show();
-									$("#" + valboton).removeClass("ui-disabled");
-									$('label[for="' + valradio + '"]').hide();
-									$('label[for="' + valimput + '"]').show();
-
-									document.getElementById(valradio).style.visibility = 'hidden';
-									$("#" + valboton).text("Opción " + i);
-									$("#" + valimput).val("");
-
-								}
-								alertify.success("Test creado");
-								console.log("Teste creado ", docRef.id);
-								id_test = docRef.id;
-								$('#divNivel').empty();
-
-								$('#divNivel').append("PREGUNTA: " + numpreguntas + " ACIERTOS PARA APROBAR: " + numrespaprobar);
-
-								$('#cabpreguntas').append(" PREGUNTAS DEL TEST: " + nom);
-
-
-							})
-							.catch(function (error) {
-
-								console.error("Error adding document: ", error);
-							});
-					} else {
-						alertify.error("Ha de poner un nombre");
-					}
-					
+							console.error("Error adding document: ", error);
+						});
+				} else {
+					alertify.error("Ha de poner un nombre");
 				}
+
+			}
 		}
 	}
 	leer_test(email);
@@ -477,114 +540,114 @@ function crear_pregunta() {
 
 
 
-	if (respuestas.length == 0 && (res == "" || res == null || res == undefined )) {
+	if (respuestas.length == 0 && (res == "" || res == null || res == undefined)) {
 		alertify.error("Ha de insertar una respuesta y ademas ha de guardarla");
 		return false;
 
 
 
 	} else {
-		
-		if(isNaN(res)){
+
+		if (isNaN(res)) {
 			alertify.error("Ha de seleccionar la opción correcta");
 			return false;
 		}
 
-					if (preg != "" && res != "" && res != null && res != undefined) {
-							db.collection("preguntas").add({
+		if (preg != "" && res != "" && res != null && res != undefined) {
+			db.collection("preguntas").add({
 
-								pregunta: preg,
-								respuesta: res,
-								num_pregunta: numpreguntas,
+				pregunta: preg,
+				respuesta: res,
+				num_pregunta: numpreguntas,
+				id_test: id_test,
+				timestamp: timestamp
+
+			})
+				.then(function (docRef) {
+
+					$("input[name=respuesta]").each(function (index) {
+						var idpregunta = parseInt($(this).val());
+						//var idtextopreg=$(this).text();
+
+						var idtextopreg = $("label[for='radio" + idpregunta + "']").text();
+
+
+						if (idtextopreg != "") {
+							db.collection("opciones").add({
 								id_test: id_test,
-								timestamp: timestamp
-
+								id_pregunta: numpreguntas,
+								opcion_numero: idpregunta,
+								texto: idtextopreg
 							})
-							.then(function (docRef) {
-
-								$("input[name=respuesta]").each(function (index) {
-									var idpregunta = parseInt($(this).val());
-									//var idtextopreg=$(this).text();
-
-									var idtextopreg = $("label[for='radio" + idpregunta + "']").text();
-
-
-									if (idtextopreg != "") {
-										db.collection("opciones").add({
-											id_test: id_test,
-											id_pregunta: numpreguntas,
-											opcion_numero: idpregunta,
-											texto: idtextopreg
-										})
-											.catch(function (error) {
-												console.error("Error adding document: ", error);
-											});
-									}
+								.catch(function (error) {
+									console.error("Error adding document: ", error);
 								});
+						}
+					});
 
 
-								alertify.success("pregunta creada");
-								console.log("pregunta creada ", docRef.id);
+					alertify.success("pregunta creada");
+					console.log("pregunta creada ", docRef.id);
 
-								numpreguntas = numpreguntas + 1;
-
-
-								for (var i = 1; i < 5; i++) {
-
-									var valboton = "guardar" + i;
-									var valradio = "radio" + i;
-									var valimput = "opcion" + i;
-
-									$("#" + valimput).show();
+					numpreguntas = numpreguntas + 1;
 
 
-									$("#" + valboton).removeClass("ui-disabled");
+					for (var i = 1; i < 5; i++) {
 
-									$('label[for="' + valradio + '"]').hide();
-									$('label[for="' + valimput + '"]').show();
+						var valboton = "guardar" + i;
+						var valradio = "radio" + i;
+						var valimput = "opcion" + i;
 
-									document.getElementById(valradio).style.visibility = 'hidden';
+						$("#" + valimput).show();
 
-									$("#" + valboton).text("Opción " + i);
-									$("#" + valimput).val("");
-									$("label[for='radio" + i + "']").text("");
 
-									
-									if ($("#" + valradio).is(':checked')) {
-										$("#" + valradio).attr("checked", false);
-										$("#" + valradio).attr("checked", "checked");
-										$("#" + valradio).prop('checked', false);
-										$("#" + valradio).checkboxradio("refresh");
+						$("#" + valboton).removeClass("ui-disabled");
 
-										$("#respuesta").checkboxradio("refresh");
-										//$(valradio).removeAttr("checked") ;
-									}
-									
+						$('label[for="' + valradio + '"]').hide();
+						$('label[for="' + valimput + '"]').show();
 
-								}
+						document.getElementById(valradio).style.visibility = 'hidden';
 
-								$('#pregunta').val('');
+						$("#" + valboton).text("Opción " + i);
+						$("#" + valimput).val("");
+						$("label[for='radio" + i + "']").text("");
 
-								//$('#respuesta').val('');
-								$('#divNivel').empty();
 
-								// $('#divNivel').append("PREGUNTA: " + numpreguntas + " ACIERTOS PARA APROBAR: " + numrespaprobar);
-								$('#divNivel').append("PREGUNTA: " + numpreguntas);
-								$('#formuresp').empty();
+						if ($("#" + valradio).is(':checked')) {
+							$("#" + valradio).attr("checked", false);
+							$("#" + valradio).attr("checked", "checked");
+							$("#" + valradio).prop('checked', false);
+							$("#" + valradio).checkboxradio("refresh");
 
-							})
-							.catch(function (error) {
+							$("#respuesta").checkboxradio("refresh");
+							//$(valradio).removeAttr("checked") ;
+						}
 
-								console.error("Error adding pregunta: ", error);
-							});
-
-					} else {
-						alertify.error("Ha de insertar una pregunta con su respuesta");
-						return false;
 
 					}
+
+					$('#pregunta').val('');
+
+					//$('#respuesta').val('');
+					$('#divNivel').empty();
+
+					// $('#divNivel').append("PREGUNTA: " + numpreguntas + " ACIERTOS PARA APROBAR: " + numrespaprobar);
+					$('#divNivel').append("PREGUNTA: " + numpreguntas);
+					$('#formuresp').empty();
+
+				})
+				.catch(function (error) {
+
+					console.error("Error adding pregunta: ", error);
+				});
+
+		} else {
+			alertify.error("Ha de insertar una pregunta con su respuesta");
+			return false;
+
+		}
 	}
-	
+
 
 }
 
@@ -676,7 +739,7 @@ function terminar_test() {
 		transition: "slide",
 		reverse: true
 	});
-leer_test(email);
+	leer_test(email);
 
 }
 
@@ -684,16 +747,16 @@ leer_test(email);
 
 
 
-		
-		
+
+
 function leer_test(email) {
 
 	// db.collection("tests").get().then((querySnapshot) => {
-	
+
 	let test = "";
 	let testcompartidos = "";
-		$("#usu").empty();
-	$("#usu").append(""+email+"");
+	$("#usu").empty();
+	$("#usu").append("" + email + "");
 	$("#listatests").empty();
 	$("#listatests").listview('refresh');
 
@@ -735,7 +798,7 @@ function leer_test(email) {
 }
 
 function limpiarCrearTest() {
-		$.mobile.changePage("#num_preg", {
+	$.mobile.changePage("#num_preg", {
 		transition: "slide",
 		reverse: true
 	});
@@ -745,11 +808,11 @@ function limpiarCrearTest() {
 	numpreguntas = 1;
 	numrespaprobar = 0;
 
-  $('#listacategorias').selectmenu('refresh');
+	$('#listacategorias').selectmenu('refresh');
 
 	$("#listacategorias").append("<option value='--' selected >Seleccione una categoría...</option>");
 	cargarcategorias();
-		  $('#listaedades').selectmenu('refresh');	
+	$('#listaedades').selectmenu('refresh');
 
 	$("#listaedades").append("<option value='--'  selected >Seleccione una edad...</option>");
 	cargaredades();
@@ -779,7 +842,7 @@ function cargarcategorias() {
 
 			});
 		});
-			
+
 }
 
 function cargaredades() {
@@ -938,7 +1001,7 @@ function crear_respuesta(res) {
 		}
 
 	} else {
-	//	alertify.error("Ha de terminar el test, es la última pregunta");
+		//	alertify.error("Ha de terminar el test, es la última pregunta");
 		terminar_respuesta();
 		$("#sigpreg").addClass("ui-disabled")
 	}
@@ -1017,27 +1080,27 @@ function terminar_respuesta() {
 	if (aciertos >= numrespaprobar) {
 		//$('#cabepopup').empty();
 
-			//consulto el premio
-			var testpre;
+		//consulto el premio
+		var testpre;
 
-			db.collection("tests").doc(id_test).get()
-			.then(function(doc3){
-	
-					testpre = doc3.data();
-					valorpremio=testpre.premio;
-					
-					
-					textoPremio =" APROBADO tu código es "+ valorpremio+" ";
-						textoPremio=textoPremio+ "RESULTADO:" + aciertos + " aciertos de " + numrespaprobar + " para aprobar";
-					darPremio(textoPremio );
-	
-				});
-			
+		db.collection("tests").doc(id_test).get()
+			.then(function (doc3) {
+
+				testpre = doc3.data();
+				valorpremio = testpre.premio;
+
+
+				textoPremio = " APROBADO tu código es " + valorpremio + " ";
+				textoPremio = textoPremio + "RESULTADO:" + aciertos + " aciertos de " + numrespaprobar + " para aprobar";
+				darPremio(textoPremio);
+
+			});
+
 		aprobado = 1;
 	} else {
 
-		textoPremio = "SUSPENDIDO " ;
-		textoPremio= textoPremio+"RESULTADO:" + aciertos + " aciertos de " + numrespaprobar + " para aprobar";	
+		textoPremio = "SUSPENDIDO ";
+		textoPremio = textoPremio + "RESULTADO:" + aciertos + " aciertos de " + numrespaprobar + " para aprobar";
 		darPremio(textoPremio);
 		aprobado = 0;
 
@@ -1064,11 +1127,11 @@ function terminar_respuesta() {
 
 
 
-	
 
 
 
-	
+
+
 	setTimeout(function () { $('#popupresultado').popup('open') }, 1000);
 
 	$.mobile.changePage("#inicio", {
@@ -1089,7 +1152,7 @@ function cargarListaCompartidos(id_test, nombre, creador) {
 
 	$("#listacompartidos").listview();
 	$("#listapreguntas").empty();
-	$("#listacompartidos").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,false,`" + numrespaprobar  + "`)' >" + nombre + " creador por: " + creador + "</a>");
+	$("#listacompartidos").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,false,`" + numrespaprobar + "`)' >" + nombre + " creador por: " + creador + "</a>");
 	$("#listacompartidos").append("</li>");
 	$("#listacompartidos").listview('refresh');
 }
@@ -1103,14 +1166,14 @@ function cargarListaTest(id_test, nombre, numrespaprobar) {
 
 	$("#listatests").listview();
 	$("#listapreguntas").empty();
-	$("#listatests").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,true,`" + numrespaprobar  +  "`)' >" + nombre + "</a>");
+	$("#listatests").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,true,`" + numrespaprobar + "`)' >" + nombre + "</a>");
 
 
 	$("#listatests").append("</li>");
 	$("#listatests").listview('refresh');
 }
 
-function cargarListaPregunta(idtest, nombretest, respuesta, numresa,valorpremio) {
+function cargarListaPregunta(idtest, nombretest, respuesta, numresa, valorpremio) {
 
 
 	respanterior = "";
@@ -1133,11 +1196,11 @@ function cargarListaPregunta(idtest, nombretest, respuesta, numresa,valorpremio)
 	numpregtotaltest = 0;
 	db.collection("preguntas").where("id_test", "==", idtest).get()
 		.then((querySnapshot) => {
-		
+
 
 			$("#listapreguntas").append(" <h2 data-theme='b' data-form='ui-bar-b'>" + nombretest + "</h2>");
 			querySnapshot.forEach((doc) => {
-				
+
 				let pregunta = doc.data();
 				numpregtotaltest = numpregtotaltest + 1;
 
@@ -1197,92 +1260,92 @@ function cargarListaPregunta(idtest, nombretest, respuesta, numresa,valorpremio)
 function borrarTest(id_test) {
 	var usuariocrea = "";
 
-	alertify.confirm('¿Esta seguro que quiere borrar este Test?', function(e){ 
-	if (e) {
-	
-	alertify.success('Ok') ;
-	//si es usuario creador
-	var test_borrar = db.collection('tests').doc(id_test);
-			
-	test_borrar.get()
-	.then(function (doc) {
+	alertify.confirm('¿Esta seguro que quiere borrar este Test?', function (e) {
+		if (e) {
 
-	let registro1 = doc.data();
-					
-					
-	usuariocrea = registro1.usuario_creador;
-	
-			
-		if (usuariocrea == email) {
-			doc.ref.delete();
-			var compartidos_borrar = db.collection('test_compartidos').where('id_test', '==', id_test);
-			compartidos_borrar.get()
-				.then(function (querySnapshot) {
-					querySnapshot.forEach(function (doc2) {
+			alertify.success('Ok');
+			//si es usuario creador
+			var test_borrar = db.collection('tests').doc(id_test);
 
-						let registro2 = doc2.data();
-						doc2.ref.delete();
-					});
-				}).catch(function (error) {
-					console.error("Error borrando compartidos: ", error);
-				});
+			test_borrar.get()
+				.then(function (doc) {
 
-				var preguntas_borrar = db.collection('preguntas').where('id_test', '==', id_test);
-				preguntas_borrar.get()
-					.then(function (querySnapshot) {
-						querySnapshot.forEach(function (doc) {
-							doc.ref.delete();
-						});
-					}).catch(function (error) {
-						console.error("Error borrando preguntas: ", error);
-					});
-					
-				var preguntas_opciones = db.collection('opciones').where('id_test', '==', id_test);
-				preguntas_opciones.get()
-					.then(function (querySnapshot) {
-						querySnapshot.forEach(function (doc) {
-							doc.ref.delete();
-						});
-					}).catch(function (error) {
-						console.error("Error borrando opciones: ", error);
-					});
-
-				var hechosalumnos_borrar = db.collection('tests_alumnos').where('id_test', '==', id_test);
-				hechosalumnos_borrar.get()
-					.then(function (querySnapshot) {
-						querySnapshot.forEach(function (doc) {
-							doc.ref.delete();
-						});
-					}).catch(function (error) {
-						console.error("Error borrando tests alumnos: ", error);
-					});
+					let registro1 = doc.data();
 
 
-				var resultados_alumno = db.collection('resultado_alumno').where('id_test', '==', id_test);
-				resultados_alumno.get()
-					.then(function (querySnapshot) {
-						querySnapshot.forEach(function (doc) {
-							doc.ref.delete();
-						});
-					}).catch(function (error) {
-						console.error("Error borrando los resultados del alumno: ", error);
-					});
-					
-							$.mobile.changePage("#inicio", {
-								transition: "slide",
-									reverse: true
+					usuariocrea = registro1.usuario_creador;
+
+
+					if (usuariocrea == email) {
+						doc.ref.delete();
+						var compartidos_borrar = db.collection('test_compartidos').where('id_test', '==', id_test);
+						compartidos_borrar.get()
+							.then(function (querySnapshot) {
+								querySnapshot.forEach(function (doc2) {
+
+									let registro2 = doc2.data();
+									doc2.ref.delete();
 								});
+							}).catch(function (error) {
+								console.error("Error borrando compartidos: ", error);
+							});
 
-		leer_test(email);
-					
-					
-		
-		}else{
-			alertify.error("no es su test, no puede borralo");
-			
-		}
+						var preguntas_borrar = db.collection('preguntas').where('id_test', '==', id_test);
+						preguntas_borrar.get()
+							.then(function (querySnapshot) {
+								querySnapshot.forEach(function (doc) {
+									doc.ref.delete();
+								});
+							}).catch(function (error) {
+								console.error("Error borrando preguntas: ", error);
+							});
 
-		}).catch(function (error) {
+						var preguntas_opciones = db.collection('opciones').where('id_test', '==', id_test);
+						preguntas_opciones.get()
+							.then(function (querySnapshot) {
+								querySnapshot.forEach(function (doc) {
+									doc.ref.delete();
+								});
+							}).catch(function (error) {
+								console.error("Error borrando opciones: ", error);
+							});
+
+						var hechosalumnos_borrar = db.collection('tests_alumnos').where('id_test', '==', id_test);
+						hechosalumnos_borrar.get()
+							.then(function (querySnapshot) {
+								querySnapshot.forEach(function (doc) {
+									doc.ref.delete();
+								});
+							}).catch(function (error) {
+								console.error("Error borrando tests alumnos: ", error);
+							});
+
+
+						var resultados_alumno = db.collection('resultado_alumno').where('id_test', '==', id_test);
+						resultados_alumno.get()
+							.then(function (querySnapshot) {
+								querySnapshot.forEach(function (doc) {
+									doc.ref.delete();
+								});
+							}).catch(function (error) {
+								console.error("Error borrando los resultados del alumno: ", error);
+							});
+
+						$.mobile.changePage("#inicio", {
+							transition: "slide",
+							reverse: true
+						});
+
+						leer_test(email);
+
+
+
+					} else {
+						alertify.error("no es su test, no puede borralo");
+
+					}
+
+				}).catch(function (error) {
 					console.error("Error borrando en test: ", error);
 				});
 
@@ -1290,9 +1353,9 @@ function borrarTest(id_test) {
 
 
 
-}else{ 
-alertify.error('Cancel');
-}
+		} else {
+			alertify.error('Cancel');
+		}
 	});
 
 
@@ -1440,24 +1503,24 @@ $('#closeresult').on('click', function () {
 
 });
 
-function cargarResultados(){
+function cargarResultados() {
 
-$.mobile.changePage("#resultados", {
-	transition: "slide",
-	reverse: true
-});
+	$.mobile.changePage("#resultados", {
+		transition: "slide",
+		reverse: true
+	});
 	$("#listaalumnos").empty();
 	$("#listaalumnos").select('refresh');
 
 
 
-cargarListaAlumnos();
-cargarTestAlumno() ;
+	cargarListaAlumnos();
+	cargarTestAlumno();
 }
 function cargarListaAlumnos() {
 
 
-			
+
 	let alumno = "";
 
 
@@ -1466,7 +1529,7 @@ function cargarListaAlumnos() {
 
 
 	$("#listaalumnos").append("<option value='" + email + "' >Mis estadísticas</option>");
-$("#listaalumnos").selectmenu('refresh')
+	$("#listaalumnos").selectmenu('refresh')
 
 	db.collection("usuarios_alumnos").where("usuario_creador", "==", email)
 		.get()
@@ -1483,10 +1546,10 @@ $("#listaalumnos").selectmenu('refresh')
 
 			});
 		});
-		
-		
-	
-	
+
+
+
+
 }
 
 
@@ -1511,7 +1574,7 @@ function cargarTestAlumno() {
 				var testaprobado = "NO";
 				test = doc.data();
 				var fechareatest = new Date(test.timestamp);
-				
+
 				if (test.aprobado == 1) {
 					testaprobado = "SI";
 				}
@@ -1537,7 +1600,7 @@ function guardoRespuesta(opcion) {
 	var idimput = 'opcion' + opcion;
 	var idboton = 'guardar' + opcion;
 	var idradio = 'radio' + opcion;
-	
+
 	var vtexto = $("#" + idimput).val();
 	if (vtexto.length == 0) {
 
@@ -1567,27 +1630,27 @@ function guardoRespuesta(opcion) {
 }
 
 function darPremio(promoCode) {
-$('#contenedorPromo').empty();
-$('#contenedorPromo').append($('<div id="promo" class="scratchpad"></div>'));
-$('#promo').append($('<div id="contenedorboton" style="position:absolute; z-index:100;width:100%"><button type="button" style="box-sizing:border-box;width: 2em;height: 2em;aling:right;border-width:3px;border-style: solid;border-color: #ff4000;border-radius:100%;background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%,  white 56%,transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%,  white 56%,transparent 56%, transparent 100%);text-align: right;background-color: #ff4000;background-color: #ff4000;ox-shadow:0px 0px 5px 2px rgba(0,0,0,0.5);transition: all 0.3s ease;float:right" onClick="javascript:cerrarPremio()"></button> <div style="margin:1em">Rasca con el dedo</div></div>'));
-$('#promo').wScratchPad({
-    // the size of the eraser
-    size        : 70,    
-    // the randomized scratch image   
-    bg:  '#ffffff',
-    // give real-time updates
-    realtime    : true, 
-    // The overlay image
-    fg: './img/regalo-sorpresa.jpg',
-    // The cursor (coin) image
-    'cursor': 'url("./img/coin.png") 5 5, default',
-	divBg: '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);">'+promoCode+'</div>'
-   
- });
-$('#contenedorPromo').show();
-	
+	$('#contenedorPromo').empty();
+	$('#contenedorPromo').append($('<div id="promo" class="scratchpad"></div>'));
+	$('#promo').append($('<div id="contenedorboton" style="position:absolute; z-index:100;width:100%"><button type="button" style="box-sizing:border-box;width: 2em;height: 2em;aling:right;border-width:3px;border-style: solid;border-color: #ff4000;border-radius:100%;background: -webkit-linear-gradient(-45deg, transparent 0%, transparent 46%, white 46%,  white 56%,transparent 56%, transparent 100%), -webkit-linear-gradient(45deg, transparent 0%, transparent 46%, white 46%,  white 56%,transparent 56%, transparent 100%);text-align: right;background-color: #ff4000;background-color: #ff4000;ox-shadow:0px 0px 5px 2px rgba(0,0,0,0.5);transition: all 0.3s ease;float:right" onClick="javascript:cerrarPremio()"></button> <div style="margin:1em">Rasca con el dedo</div></div>'));
+	$('#promo').wScratchPad({
+		// the size of the eraser
+		size: 70,
+		// the randomized scratch image   
+		bg: '#ffffff',
+		// give real-time updates
+		realtime: true,
+		// The overlay image
+		fg: './img/regalo-sorpresa.jpg',
+		// The cursor (coin) image
+		'cursor': 'url("./img/coin.png") 5 5, default',
+		divBg: '<div style="position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);">' + promoCode + '</div>'
+
+	});
+	$('#contenedorPromo').show();
+
 }
 
-function cerrarPremio(){
+function cerrarPremio() {
 	$('.scratch-container').hide();
 }

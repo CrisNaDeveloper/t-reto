@@ -348,4 +348,4 @@
       first.target.dispatchEvent(simulatedEvent);
     });
   };
-})(jQuery);
+});
