@@ -125,7 +125,7 @@ function start() {
 		alert("token");
 		gapi.client.init({
 			apiKey: 'AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM',
-			clientId: '852389149871-cees77mik4826ncre8kkkdt81acf3ltl.apps.googleusercontent.com',
+			clientId: '852389149871-1l65hbjr4r254tpv3rij2vr23av6s8hv.apps.googleusercontent.com',
 		//	discoveryDocs: 'https://www.googleapis.com/games/v1/',
 			scope: 'https://www.googleapis.com/auth/games',
 		  })
