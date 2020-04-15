@@ -133,6 +133,9 @@ function start() {
 		  // Loading is finished, so start the app
 		  .then(function() {
 			alert("paso2");
+			gapi.client.load('games', 'v1', function(response) {   
+
+
 			gapi.client.setToken(idtok);
 			gapi.client.setApiKey('AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM');
 		// 3. Initialize and make the API request.
@@ -144,6 +147,7 @@ function start() {
 							console.log("esta es la respuesta" + response);
 								}
 					});
+				});
 		  });
 
 
