@@ -15,22 +15,25 @@ var config = {
 };
 
 
+let provider = new firebase.auth.FacebookAuthProvider();
+
 if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 	otramaneralogin();
+//logarse("email");
 
 
-	gapi.load('client:auth2', start);
+
 }
 
-var provider = "";
+
 
 
 
 
 function logarse(provider) {
 
-
+alert("estoy");
 	firebase.auth().languageCode = 'es_es';
 
 	if (provider == "google") {
@@ -41,7 +44,10 @@ function logarse(provider) {
 	if (provider == "facebook") {
 		provider = new firebase.auth.FacebookAuthProvider();
 	}
-
+	
+	if (provider == "email") {
+		provider = new firebase.auth.EmailAuthProvider();
+	}
 	// Step 1.
 	// User tries to sign in to Google.
 	firebase.auth().signInWithPopup(provider).catch(function (error) {
@@ -107,21 +113,19 @@ firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
 	  user.getIdToken().then(function(data) {
 		  alert("mitoken"+data);
-		idtok=data;
+		  gapi.load('client:auth2', start);
 	  });
 	}
   });
 
 
-  firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        window.user = user;
-        reinitialized = true;
-        refreshNotifications();
-    } else {
-        askForLogin();
-    }
-});
+
+
+         
+
+
+		
+
 //GAME PLAY-->
 
 // 	var constants = constants || {}
@@ -132,7 +136,14 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 function start() {
 
-		
+	gapi.client.load('games', 'v1', function(response) {   
+		var request = gapi.client.games.leaderboards.list(  
+					 {maxResults: 5}                    );    
+		  request.execute(function(response) {       
+			 // show table with available leaderboards       
+			             }); 
+															  });       
+
 		alert("token");
 		gapi.client.init({
 			apiKey: 'AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM',
