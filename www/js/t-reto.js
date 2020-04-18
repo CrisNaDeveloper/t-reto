@@ -3,6 +3,10 @@ $(document).bind("mobileinit", function () {
 
 	$.mobile.allowCrossDomainPages = true;
 });
+
+
+
+
 var config = {
 	apiKey: "AIzaSyA-GWTHVrKrJvtASdFjC-YhsipC7Zhgdj4",
 	authDomain: "t-reto-f6198.firebaseapp.com",
@@ -12,15 +16,15 @@ var config = {
 	messagingSenderId: "846934377292",
 	appId: "1:846934377292:web:564c96fbe90b675c1d45e9",
 	measurementId: "G-1NYT902SQD"
-};
+}
 
 
-let provider = new firebase.auth.FacebookAuthProvider();
 
 if (!firebase.apps.length) {
 	firebase.initializeApp(config);
 	otramaneralogin();
 //logarse("email");
+gapi.load('client:auth2', start);
 
 
 
@@ -33,8 +37,9 @@ if (!firebase.apps.length) {
 
 function logarse(provider) {
 
-alert("estoy");
-	firebase.auth().languageCode = 'es_es';
+
+
+	firebase.auth().useDeviceLanguage();
 
 	if (provider == "google") {
 		provider = new firebase.auth.GoogleAuthProvider();
@@ -108,15 +113,8 @@ alert("estoy");
 
 
 
-var idtok;
-firebase.auth().onAuthStateChanged(function(user) {
-	if (user) {
-	  user.getIdToken().then(function(data) {
-		  alert("mitoken"+data);
-		  gapi.load('client:auth2', start);
-	  });
-	}
-  });
+
+
 
 
 
@@ -135,18 +133,9 @@ firebase.auth().onAuthStateChanged(function(user) {
 // // constants.EVENT_NEURONA = 'CgkIj-HitO0REAIQAQ';
 
 function start() {
-
-	gapi.client.load('games', 'v1', function(response) {   
-		var request = gapi.client.games.leaderboards.list(  
-					 {maxResults: 5}                    );    
-		  request.execute(function(response) {       
-			 // show table with available leaderboards       
-			             }); 
-															  });       
-
-		alert("token");
+		
 		gapi.client.init({
-			apiKey: 'AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM',
+			apiKey: 'AIzaSyA-GWTHVrKrJvtASdFjC-YhsipC7Zhgdj4',
 			clientId: '852389149871-cees77mik4826ncre8kkkdt81acf3ltl.apps.googleusercontent.com',
 		//	discoveryDocs: 'https://www.googleapis.com/games/v1/',
 			scope: 'https://www.googleapis.com/auth/games',
@@ -154,17 +143,26 @@ function start() {
 		//  gapi.client.setToken(idtok);
 		  // Loading is finished, so start the app
 		  .then(function() {
-			alert("paso2");
+
+			gapi.client.load('games', 'v1', function(response) {   
+				var request = gapi.client.games.leaderboards.list(  
+							 {maxResults: 5}                    );    
+				  request.execute(function(response) {       
+					 // show table with available leaderboards       
+								 }); 
+																	  });      
+
+
 			gapi.client.load('games', 'v1', function(response) {   
 
-
-			gapi.client.setToken(idtok);
+				userIdToken = firebase.auth().currentUser.getIdToken();
+			gapi.client.setToken(userIdToken);
 			gapi.client.setApiKey('AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM');
 		// 3. Initialize and make the API request.
 					gapi.client.request({
 						path: 'https://www.googleapis.com/games/v1/achievements',
 						methods: 'https://www.googleapis.com/games/v1/achievements',
-						params: { language: 'es', maxResults: 150, pageToken: idtok },
+						params: { language: 'es-ES', maxResults: 150, pageToken: userIdToken },
 						callback: function (response) {
 							console.log("esta es la respuesta" + response);
 								}
@@ -214,8 +212,55 @@ function banner() {
 
 
 
+
+firebase.auth().onAuthStateChanged(function(user) {
+	if (user) {
+	  var name = user.displayName;
+  
+	  /* If the provider gives a display name, use the name for the
+	  personal welcome message. Otherwise, use the user's email. */
+	  var welcomeName = name ? name : user.email;
+
+		userIdToken = firebase.auth().currentUser.getIdToken();
+
+  
+	}
+});
+
+
+
+	firebase.auth().SignInWithCustomTokenAsync(customToken).ContinueWith(task => {
+		if (task.IsCanceled) {
+		  Debug.LogError("SignInWithCustomTokenAsync was canceled.");
+		  return;
+		}
+		if (task.IsFaulted) {
+		  Debug.LogError("SignInWithCustomTokenAsync encountered an error: " + task.Exception);
+		  return;
+		}
+	  
+		 newUser = task.Result;
+		Debug.LogFormat("User signed in successfully: {0} ({1})",
+			newUser.DisplayName, newUser.UserId);
+	  });
+
+
+	  firebase.auth().createCustomToken(uid)
+      .then(customToken => 
+        // Response must be an object or Firebase errors
+        res.json({firebaseToken: customToken})
+      )
+      .catch(err => 
+        res.status(500).send({
+          message: 'Something went wrong acquiring a Firebase token.',
+          error: err
+        })
+      );
+
+
 function otramaneralogin() {
-	firebase.auth().useDeviceLanguage();
+	//firebase.auth().useDeviceLanguage();
+	firebase.auth().languageCode = 'es_ES';
 	var uiConfig = {
 		signInFlow: 'popup',
 		signInSuccessUrl: '#inicio',
@@ -434,9 +479,6 @@ function desconectar() {
 
 function crear_test() {
 
-
-
-
 	$('#cabpreguntas').empty();
 	$('#divNivel').empty();
 
@@ -458,6 +500,7 @@ function crear_test() {
 	var valoredad = $("#listaedades").val();
 	var textocategoria = $("#listacategorias option:selected").text();
 	var valorcategoria = $("#listacategorias").val();
+	var valorrepetir = $('input:radio[name=repetir]:checked').val();
 
 	if (valoredad == "--") {
 		alertify.error("Ha de seleccionar edad");
@@ -481,7 +524,7 @@ function crear_test() {
 						numrespaprobar: numrespaprobar,
 
 						premio: valorpremio,
-
+						repetir: valorrepetir,
 						usuario_creador: usu,
 						timestamp: timestamp,
 						id_categoria: valorcategoria,
@@ -850,7 +893,7 @@ function cargarcategorias() {
 
 	let categoria = "";
 
-
+alert("paso categorias");
 	$("#listacategorias").empty();
 	$("#listacategorias").select('refresh');
 	$("#listacategorias").append("<option value='--' selected >Seleccione una categoría...</option>");
@@ -1268,12 +1311,12 @@ function cargarListaPregunta(idtest, nombretest, respuesta, numresa, valorpremio
 
 	$("#pieverpreg").empty();
 	$("#pieverpreg").append("<a href='#inicio' data-role='button' data-transition='flip'>volver</a>");
-	$("#pieverpreg").append("<a data-role='button' data-transition='flip' onclick='hacerTest(numpregcuestion,id_test,nombre)' >Hacer encuesta</a>");
+	$("#pieverpreg").append("<a data-role='button' data-transition='flip' onclick='hacerTest(numpregcuestion,id_test,nombre)' >Hacer Test</a>");
 
 	if (emailadministrador == email) {
 
 
-		$("#pieverpreg").append("<a href='#inicio' data-role='button' data-transition='flip' id='botonborrar' onclick='borrarTest(id_test)'>Borrar esta encuesta</a>");
+		$("#pieverpreg").append("<a href='#inicio' data-role='button' data-transition='flip' id='botonborrar' onclick='borrarTest(id_test)'>Borrar este test</a>");
 
 	}
 

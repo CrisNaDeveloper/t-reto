@@ -9,8 +9,8 @@
 	<title>t-reto</title>
 	<link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" /> 
 
-	<!--link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" /-->
-		<link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css" >
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+
 	<link rel="stylesheet" type="text/css" href="css/t-reto.min.css" />
 
 <link rel="stylesheet" type="text/css" href="css/images/icon-pack-custom.css" />
@@ -21,7 +21,6 @@
 	<link rel="stylesheet" href="themes/alertify.core.css" />
 	<link rel="stylesheet" href="themes/alertify.default.css" id="toggleCSS" />
 
-<!-- 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
 	<script src="lib/alertify.min.js"></script>
 	
 	<!--NO OLVIDAR PONER-->
@@ -50,23 +49,10 @@
 <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
 <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
-
-
-
-		<!-- <script src="firebase/firebase-auth.js"></script>
-	<script src="firebase/firebase-database.js"></script>
-	<script src="firebase/firebase-firestore.js"></script>
-	<script src="firebase/firebase-messaging.js"></script>
-	<script src="firebase/firebase-functions.js"></script> -->
 	
-	<!-- Comment out (or don't include) services that you don't want to use -->
-	<!-- <script src="firebase/firebase-storage.js"></script> -->
-	
- 	<script src="jquery.mobile-1.4.5/jquery-1.10.2.min.js"></script>
-	<script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script> 
 
-<!-- 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> 
 
 	<script src="https://apis.google.com/js/platform.js" async defer></script>
 
@@ -406,7 +392,14 @@
 				<textarea name="nomtest" id="nomtest"></textarea>
 				<label for="aciertos">Respuestas correctas necesarias para aprobar:</label>
 				<textarea name="aciertos" id="aciertos"></textarea> 
-
+				<label for="repetir">¿Quieres que pueda repetir el test?:</label>
+				<fieldset data-role="controlgroup" data-type="horizontal" >
+				<input type="radio" name="repetir" id="no" value="choice-1" checked="checked" />
+				<label for="no">No</label>
+	   
+				<input type="radio" name="repetir" id="si" value="choice-2"  />
+				<label for="si">si</label>
+					</fieldset>
 				<label for="premio">PREMIO(Código o frase que quieres que aparezca si aprueba):</label>
 				<textarea name="premio" id="premio"></textarea> 
 
