@@ -564,7 +564,7 @@ function crear_test() {
             } else {
 
                 if (nom != "") {
-
+                    alert(timestamp);
                     db.collection("tests").add({
                             nombre: nom,
                             numrespaprobar: numrespaprobar,
