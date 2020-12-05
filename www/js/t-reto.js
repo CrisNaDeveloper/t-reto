@@ -13,7 +13,8 @@ var config = {
     storageBucket: "t-reto-f6198.appspot.com",
     messagingSenderId: "846934377292",
     appId: "1:846934377292:web:564c96fbe90b675c1d45e9",
-    measurementId: "G-1NYT902SQD"
+    measurementId: "G-1NYT902SQD",
+    timestampsInSnapshots: true
 
 }
 
