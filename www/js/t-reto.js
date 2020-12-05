@@ -5,8 +5,6 @@ $(document).bind("mobileinit", function () {
 });
 
 
-
-
 var config = {
 	apiKey: "AIzaSyA-GWTHVrKrJvtASdFjC-YhsipC7Zhgdj4",
 	authDomain: "t-reto-f6198.firebaseapp.com",
@@ -16,15 +14,20 @@ var config = {
 	messagingSenderId: "846934377292",
 	appId: "1:846934377292:web:564c96fbe90b675c1d45e9",
 	measurementId: "G-1NYT902SQD"
+
 }
+
 
 
 
 if (!firebase.apps.length) {
 	firebase.initializeApp(config);
+
 	otramaneralogin();
+	var db = firebase.firestore();
+
 //logarse("email");
-gapi.load('client:auth2', start);
+authenticate().then(loadClient);
 
 
 
@@ -121,8 +124,55 @@ function logarse(provider) {
 
          
 
+  /**
+   * Sample JavaScript code for games.achievementDefinitions.list
+   * See instructions for running APIs Explorer code samples locally:
+   * https://developers.google.com/explorer-help/guides/code_samples#javascript
+   */
 
-		
+  function authenticate() {
+
+
+	 // get the credentials from the google auth response
+		 var idToken =  firebase.auth().currentUser.getIdToken();
+	 var creds = firebase.auth.GoogleAuthProvider.credential(idToken);
+
+
+	 // auth in the user 
+	 firebase.auth().signInWithCredential(creds).then((user) => {
+		// you can use (user) or googleProfile to setup the user
+		var googleProfile = googleUser.getBasicProfile()
+		if (user) {
+		   // do something with this user
+		}
+	 })
+  }
+  function loadClient() {
+	gapi.client.setApiKey("AIzaSyDsWd6Dtbo_32gQdgynXZMnwcGIm98jnTk");
+	alert("paso");
+    return gapi.client.load("https://content.googleapis.com/discovery/v1/apis/games/v1/rest")
+        .then(function() { console.log("GAPI client loaded for API"); },
+              function(err) { console.error("Error loading GAPI client for API", err); });
+  }
+  // Make sure the client is loaded and sign-in is complete before calling this method.
+  function execute() {
+    return gapi.client.games.achievementDefinitions.list({})
+        .then(function(response) {
+                // Handle the results here (response.result has the parsed body).
+                console.log("resupusta", response);
+              },
+              function(err) { console.error("Execute error", err); });
+  }
+  gapi.load("client:auth2", function() {
+    gapi.auth2.init({client_id: "415249084355-01r4mt4bs0gpagvqak3e0ngrjjrlf89t.apps.googleusercontent.com"});
+  });
+
+  function onSignIn() {
+	const googleUser = gapi.auth2.getAuthInstance().currentUser.get();
+	const profile = googleUser.getBasicProfile();
+  
+	// do stuff here
+  }
 
 //GAME PLAY-->
 
@@ -133,38 +183,37 @@ function logarse(provider) {
 // // constants.EVENT_NEURONA = 'CgkIj-HitO0REAIQAQ';
 
 function start() {
-		
+	alert("paso");
 		gapi.client.init({
-			apiKey: 'AIzaSyA-GWTHVrKrJvtASdFjC-YhsipC7Zhgdj4',
-			clientId: '852389149871-cees77mik4826ncre8kkkdt81acf3ltl.apps.googleusercontent.com',
+			apiKey: 'AIzaSyDsWd6Dtbo_32gQdgynXZMnwcGIm98jnTk',
+			clientId: '415249084355-01r4mt4bs0gpagvqak3e0ngrjjrlf89t.apps.googleusercontent.com',
 		//	discoveryDocs: 'https://www.googleapis.com/games/v1/',
 			scope: 'https://www.googleapis.com/auth/games',
 		  })
 		//  gapi.client.setToken(idtok);
 		  // Loading is finished, so start the app
 		  .then(function() {
-
+			alert("paso1");
 			gapi.client.load('games', 'v1', function(response) {   
 				var request = gapi.client.games.leaderboards.list(  
 							 {maxResults: 5}                    );    
 				  request.execute(function(response) {       
-					 // show table with available leaderboards       
-								 }); 
+					console.log("esta es la respuesta list" + response);								 }); 
 																	  });      
 
 
 			gapi.client.load('games', 'v1', function(response) {   
-
+				alert("paso2");
 				userIdToken = firebase.auth().currentUser.getIdToken();
 			gapi.client.setToken(userIdToken);
-			gapi.client.setApiKey('AIzaSyAxQxJ7GfQCQEjiPO1addQ-m16chaqAsrM');
+			gapi.client.setApiKey('AIzaSyDsWd6Dtbo_32gQdgynXZMnwcGIm98jnTk');
 		// 3. Initialize and make the API request.
 					gapi.client.request({
 						path: 'https://www.googleapis.com/games/v1/achievements',
 						methods: 'https://www.googleapis.com/games/v1/achievements',
 						params: { language: 'es-ES', maxResults: 150, pageToken: userIdToken },
 						callback: function (response) {
-							console.log("esta es la respuesta" + response);
+							console.log("esta es la respuesta logros" + response);
 								}
 					});
 				});
@@ -185,18 +234,18 @@ function banner() {
 	var admobid = {};
 	if (/(android)/i.test(navigator.userAgent)) { // for android & amazon-fireos
 		admobid = {
-			banner: 'cca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+			banner: 'ca-app-pub-2512504278709047/6740739104', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/6740739104'
 		};
 	} else if (/(ipod|iphone|ipad)/i.test(navigator.userAgent)) { // for ios
 		admobid = {
-			banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+			banner: 'ca-app-pub-2512504278709047/6740739104', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/6740739104'
 		};
 	} else { // for windows phone
 		admobid = {
-			banner: 'ca-app-pub-2512504278709047/8783949487', // or DFP format "/6253334/dfp_example_ad"
-			interstitial: 'ca-app-pub-2512504278709047/8783949487'
+			banner: 'ca-app-pub-2512504278709047/6740739104', // or DFP format "/6253334/dfp_example_ad"
+			interstitial: 'ca-app-pub-2512504278709047/6740739104'
 		};
 	}
 
@@ -212,7 +261,6 @@ function banner() {
 
 
 
-
 firebase.auth().onAuthStateChanged(function(user) {
 	if (user) {
 	  var name = user.displayName;
@@ -221,7 +269,7 @@ firebase.auth().onAuthStateChanged(function(user) {
 	  personal welcome message. Otherwise, use the user's email. */
 	  var welcomeName = name ? name : user.email;
 
-		userIdToken = firebase.auth().currentUser.getIdToken();
+		userIdToken = user.getIdToken();
 
   
 	}
@@ -229,20 +277,6 @@ firebase.auth().onAuthStateChanged(function(user) {
 
 
 
-	firebase.auth().SignInWithCustomTokenAsync(customToken).ContinueWith(task => {
-		if (task.IsCanceled) {
-		  Debug.LogError("SignInWithCustomTokenAsync was canceled.");
-		  return;
-		}
-		if (task.IsFaulted) {
-		  Debug.LogError("SignInWithCustomTokenAsync encountered an error: " + task.Exception);
-		  return;
-		}
-	  
-		 newUser = task.Result;
-		Debug.LogFormat("User signed in successfully: {0} ({1})",
-			newUser.DisplayName, newUser.UserId);
-	  });
 
 
 	  firebase.auth().createCustomToken(uid)
@@ -258,9 +292,16 @@ firebase.auth().onAuthStateChanged(function(user) {
       );
 
 
+
+
+
+
+
 function otramaneralogin() {
-	//firebase.auth().useDeviceLanguage();
-	firebase.auth().languageCode = 'es_ES';
+
+	alert("otramanera");
+	firebase.auth().useDeviceLanguage();
+
 	var uiConfig = {
 		signInFlow: 'popup',
 		signInSuccessUrl: '#inicio',
@@ -292,12 +333,12 @@ function otramaneralogin() {
 
 }
 
-var db = firebase.firestore();
-db.settings({ timestampsInSnapshots: true });
 var fechayhora;
 var timestamp;
 var offset;
 
+
+db.settings({ timestampsInSnapshots: true });
 
 var offsetRef = firebase.database().ref(".info/serverTimeOffset");
 offsetRef.on("value", damefechayhora, errorfecha);
@@ -495,13 +536,17 @@ function crear_test() {
 	valorpremio = $('#premio').val();
 
 	var usu = email;
-
+	var valorrepetir;
 	var textoedad = $("#listaedades option:selected").text();
 	var valoredad = $("#listaedades").val();
 	var textocategoria = $("#listacategorias option:selected").text();
 	var valorcategoria = $("#listacategorias").val();
-	var valorrepetir = $('input:radio[name=repetir]:checked').val();
-
+	valorrepetir = $('input:radio[name=repetir]:checked').val();
+if (valorrepetir=="choice-2"){
+	valorrepetir="si";
+}else{
+	valorrepetir="no";
+	}
 	if (valoredad == "--") {
 		alertify.error("Ha de seleccionar edad");
 
@@ -822,7 +867,8 @@ function leer_test(email) {
 
 	// db.collection("tests").get().then((querySnapshot) => {
 
-	let test = "";
+
+
 	let testcompartidos = "";
 	$("#usu").empty();
 	$("#usu").append("" + email + "");
@@ -837,13 +883,10 @@ function leer_test(email) {
 		.then((querySnapshot) => {
 
 			querySnapshot.forEach((doc) => {
+	cargarListaTest(doc.id, test.nombre, test.numrespaprobar, test.premio);
 
-
-				test = doc.data();
-
-				cargarListaTest(doc.id, test.nombre, test.numrespaprobar, test.premio);
-
-
+	
+			
 			});
 		});
 
@@ -1235,10 +1278,39 @@ function cargarListaTest(id_test, nombre, numrespaprobar) {
 
 	$("#listatests").listview();
 	$("#listapreguntas").empty();
-	$("#listatests").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,true,`" + numrespaprobar + "`)' >" + nombre + "</a>");
+alert("repe"+repe);
 
 
-	$("#listatests").append("</li>");
+
+			
+let test2 = "";
+let hecho="";
+let repe="";
+db.collection("tests_alumnos")
+.where("id_test", "==", id_test)
+.where("id_alumno", "==", email)		
+.where("num_respuesta", "==", 1)	
+.get()			
+.then((querySnapshot2) => {
+	querySnapshot2.forEach((doc2) => {
+		let test2=doc2.data();
+		
+		 hecho=test2.num_respuesta;
+		repe=test.repetir;
+					alert("repe"+repe+"hecho"+hecho);
+
+
+						if((repe=="si")||hecho==""){
+						$("#listatests").append("<li><a  onclick='cargarListaPregunta(`" + id_test + "`,`" + nombre + "`,true,`" + numrespaprobar + "`)' >" + nombre + "</a>");
+
+
+						$("#listatests").append("</li>");
+						}
+
+});
+
+
+});
 	$("#listatests").listview('refresh');
 }
 
