@@ -4,154 +4,178 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="Access-Control-Allow-Origin" content="*">
-    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline';  media-src *;img-src * 'self' data: https:;" script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self' "/>
-<!--   <base href="https://crisnadeveloper.github.io/t-reto/www/ "> -->
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline';  media-src *;img-src * 'self' data: https:;" script-src 'self' https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'"/>
+<!--   <base href=" https://crisnadeveloper.github.io/t-reto/www/"> -->
 
-	<title>t-reto</title>
-	<link rel="stylesheet "type="text/css "href="css/jquery.mobile.icons.min.css "/> 
+    <title>t-reto</title>
+    <link rel="stylesheet" type="text/css" href="css/jquery.mobile.icons.min.css" />
 
-	<!--link rel="stylesheet "href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css "/-->
-		<link rel="stylesheet "href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css ">
-	<link rel="stylesheet "type="text/css "href="css/t-reto.min.css "/>
+    <!--link rel="stylesheet"href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css"/-->
+    <link rel="stylesheet" href="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" type="text/css" href="css/t-reto.min.css" />
 
-<link rel="stylesheet "type="text/css "href="css/images/icon-pack-custom.css "/>
-	<link rel="stylesheet "type="text/css "href="css/scratch.css "/>
-
-
-
-	<link rel="stylesheet "href="themes/alertify.core.css "/>
-	<link rel="stylesheet "href="themes/alertify.default.css "id="toggleCSS "/>
-
-<!-- 	<script src="http://code.jquery.com/jquery-1.9.1.js "></script> -->
-	<script src="lib/alertify.min.js "></script>
-	
-	<!--NO OLVIDAR PONER-->
-
-<!-- <script src="js/admob_simple.js "></script>  -->
-<script src="js/scratch.js "></script> 
-	
-	
-	<!-- Firebase App is always required and must be first -->
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-app.js "></script>
-	<!-- Add additional services that you want to use -->
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-auth.js "></script>
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-database.js "></script>
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-firestore.js "></script>
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-messaging.js "></script>
-	<script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-functions.js "></script> 
-	<!-- Comment out (or don't include) services that you don't want to use -->
-	 <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-storage.js "></script> 
-	 
-	 <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js "></script>
-<link type="text/css "rel="stylesheet "href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css "/>
-	<script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth__es.js "></script>
-<link type="text/css "rel="stylesheet "href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css "/>
-
-
-<script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js "></script>
-<link type="text/css "rel="stylesheet "href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css "/>
+    <link rel="stylesheet" type="text/css" href="css/images/icon-pack-custom.css" />
+    <link rel="stylesheet" type="text/css" href="css/scratch.css" />
 
 
 
+    <link rel="stylesheet" href="themes/alertify.core.css" />
+    <link rel="stylesheet" href="themes/alertify.default.css" id="toggleCSS" />
 
-		<!-- <script src="firebase/firebase-auth.js "></script>
-	<script src="firebase/firebase-database.js "></script>
-	<script src="firebase/firebase-firestore.js "></script>
-	<script src="firebase/firebase-messaging.js "></script>
-	<script src="firebase/firebase-functions.js "></script> -->
-	
-	<!-- Comment out (or don't include) services that you don't want to use -->
-	<!-- <script src="firebase/firebase-storage.js "></script> -->
-	
- 	<script src="jquery.mobile-1.4.5/jquery-1.10.2.min.js "></script>
-	<script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js "></script> 
+    <!-- 	<script src="http://code.jquery.com/jquery-1.9.1.js"></script> -->
+    <script src="lib/alertify.min.js"></script>
 
-<!-- 	<script src="http://code.jquery.com/jquery-1.10.2.min.js "></script>
-	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js "></script> -->
+    <!--NO OLVIDAR PONER-->
 
-	<script src="js/t-reto.js "></script>
-	<script src="js/scratch.js "></script>
-	
-
-	
-	<!--funcion para saber si ya esta logado-->
-	<script>
-
-		function initApp() {
-			// Listening for auth state changes. 
-			// [START authstatelistener] 
-			firebase.auth().onAuthStateChanged(function (user) {
-
-				if (user) {
-
-					email = user.email;
-
-					$.mobile.changePage("#inicio ", {
-						transition:"slide ",
-						reverse: true
-					});
-					leer_test(email);
-					banner();
-				} else {
+    <!-- <script src="js/admob_simple.js"></script>  -->
+    <script src="js/scratch.js"></script>
 
 
-					$.mobile.changePage("#login ", {
-						transition:"slide ",
-						reverse: true
-					});
+    <!-- Firebase App is always required and must be first -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-app.js"></script>
+    <!-- Add additional services that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-functions.js"></script>
+    <!-- Comment out (or don't include) services that you don't want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.0.1/firebase-storage.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
+    <script src="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth__es.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.4.0/firebase-ui-auth.css" />
 
 
-				}
-
-			});
-		}
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.css" />
 
 
-		window.onload = function () {
-			initApp();
-
-			// otramaneralogin();
-
-		};
 
 
-	</script>
-	
+    <!-- <script src="firebase/firebase-auth.js"></script>
+	<script src="firebase/firebase-database.js"></script>
+	<script src="firebase/firebase-firestore.js"></script>
+	<script src="firebase/firebase-messaging.js"></script>
+	<script src="firebase/firebase-functions.js"></script> -->
+
+    <!-- Comment out (or don't include) services that you don't want to use -->
+    <!-- <script src="firebase/firebase-storage.js"></script> -->
+
+    <script src="jquery.mobile-1.4.5/jquery-1.10.2.min.js"></script>
+    <script src="jquery.mobile-1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+    <!-- 	<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> -->
+
+    <script src="js/t-reto.js"></script>
+    <script src="js/scratch.js"></script>
+
+
+
+    <!--funcion para saber si ya esta logado-->
+    <script>
+
+        function initApp() {
+            // Listening for auth state changes. 
+            // [START authstatelistener] 
+            firebase.auth().onAuthStateChanged(function (user) {
+
+                if (user) {
+
+                    email = user.email;
+
+                    $.mobile.changePage("#inicio", {
+                        transition:"slide",
+                        reverse: true
+                    });
+                    leer_test(email);
+                    banner();
+                } else {
+
+
+                    $.mobile.changePage("#login", {
+                        transition:"slide",
+                        reverse: true
+                    });
+
+
+                }
+
+            });
+        }
+
+
+        window.onload = function () {
+            initApp();
+
+            // otramaneralogin();
+
+        };
+
+
+    </script>
+
 </head>
 
-<body data-theme="b ">
+<body data-theme="b">
 
-	<!--INICIO-->
-<div data-role="page "id="login ">
-		<div data-role="header "data-theme="b ">t-reto: Login</div>
-			<div data-role="content "data-theme="b ">
-	
-		
-		<div id="firebaseui-auth-container "></div> 
+    <!--INICIO-->
+    <div data-role="page" id="login">
+        <div data-role="header" data-theme="b">t-reto: Login</div>
+        <div data-role="content" data-theme="b">
 
 
-			<div id="test "class="ui-content ui-alt-icon ui-page-theme-b ui-shadow-icon ">
-						<h1>¿Que puedo hacer con t-reto?</h1>
-						<div style="display:flex "><div style="display:inline-flex;padding:7px 6px "><button class="ui-btn ui-icon-edit ui-shadow ui-corner-all ui-btn-icon-notext "></button></div>	<div style="display:inline-flex;padding:7px 6px "> Crear Retos  para preguntar</div></div>
-						<div style="display:flex "><div style="display:inline-flex;padding:7px 6px "><button class="ui-btn ui-icon-comments-o ui-shadow ui-corner-all ui-btn-icon-notext "></button></div>	<div style="display:inline-flex;padding:7px 6px ">Puedes Contestar los Retos</div></div>
-						<div style="display:flex "><div style="display:inline-flex;padding:7px 6px "><button class="ui-btn ui-icon-bar-chart-o ui-shadow ui-corner-all ui-btn-icon-notext "></button></div>	<div style="display:inline-flex;padding:7px 6px ">Puedes ver tus resultados y los de tus amigos/alumnos</div></div>
-						<div style="display:flex "><div style="display:inline-flex;padding:7px 6px "><button class="ui-btn ui-icon-group ui-shadow ui-corner-all ui-btn-icon-notext "></button></div>	<div style="display:inline-flex;padding:7px 6px ">Puedes añadir amigos</div></div>
-						<div style="display:flex "><div style="display:inline-flex;padding:7px 6px "><button class="ui-btn ui-icon-external-link3 ui-shadow ui-corner-all ui-btn-icon-notext "></button></div>	<div style="display:inline-flex;padding:7px 6px ">Si pasas el reto verás el premio o código de desbloqueo</div></div>
-							
-			</div>		
-			
-	
-		</div>
-		
-
-</div>
+            <div id="firebaseui-auth-container"></div>
 
 
-<!-- PAGINA INICIO-->
-<div data-role="page "id="inicio ">
+            <div id="test" class="ui-content ui-alt-icon ui-page-theme-b ui-shadow-icon">
+                <h1>¿Que puedo hacer con t-reto?</h1>
+                <div style="display:flex">
+                    <div style="display:inline-flex;padding:7px 6px"><button
+                            class="ui-btn ui-icon-edit ui-shadow ui-corner-all ui-btn-icon-notext"></button></div>
+                    <div style="display:inline-flex;padding:7px 6px"> Crear Retos para preguntar</div>
+                </div>
+                <div style="display:flex">
+                    <div style="display:inline-flex;padding:7px 6px"><button
+                            class="ui-btn ui-icon-comments-o ui-shadow ui-corner-all ui-btn-icon-notext"></button></div>
+                    <div style="display:inline-flex;padding:7px 6px">Puedes Contestar los Retos</div>
+                </div>
+                <div style="display:flex">
+                    <div style="display:inline-flex;padding:7px 6px"><button
+                            class="ui-btn ui-icon-bar-chart-o ui-shadow ui-corner-all ui-btn-icon-notext"></button>
+                    </div>
+                    <div style="display:inline-flex;padding:7px 6px">Puedes ver tus resultados y los de tus
+                        amigos/alumnos</div>
+                </div>
+                <div style="display:flex">
+                    <div style="display:inline-flex;padding:7px 6px"><button
+                            class="ui-btn ui-icon-group ui-shadow ui-corner-all ui-btn-icon-notext"></button></div>
+                    <div style="display:inline-flex;padding:7px 6px">Puedes añadir amigos</div>
+                </div>
+                <div style="display:flex">
+                    <div style="display:inline-flex;padding:7px 6px"><button
+                            class="ui-btn ui-icon-external-link3 ui-shadow ui-corner-all ui-btn-icon-notext"></button>
+                    </div>
+                    <div style="display:inline-flex;padding:7px 6px">Si pasas el reto verás el premio o código de
+                        desbloqueo</div>
+                </div>
 
-		<div data-role="header "data-theme="b> t-reto
-    <a onclick="desconectar()" data-role="button" data-theme="b" data-icon="power" data-iconpos="notext" class="ui-btn-right"> </a>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+    <!-- PAGINA INICIO-->
+    <div data-role="page" id="inicio">
+
+        <div data-role="header" data-theme="b> t-reto
+    <a onclick=" desconectar()" data-role="button" data-theme="b" data-icon="power" data-iconpos="notext" class="ui-btn-right"> </a>
     <label for='usuario' id='usu'> </label>
     </div>
 
@@ -381,15 +405,15 @@
             <label for="listacategorias">Selecciona la categoría:</label>
 
             <select name="listacategorias" id="listacategorias" data-theme="b">
-						<option value='--' selected >Seleccione una categoría...</option>
-				</select>
+                <option value='--' selected>Seleccione una categoría...</option>
+            </select>
 
 
             <label for="listaedades">Selecciona la edad:</label>
             <select name="listaedades" id="listaedades" data-theme="b">
-			<option value='--'  selected >Seleccione una edad...</option>
-					
-				</select>
+                <option value='--' selected>Seleccione una edad...</option>
+
+            </select>
 
         </div>
 
@@ -431,7 +455,8 @@
             <a href="#amigos" data-role="button" data-transition="flip">SI</a>
             <a href="#inicio" data-role="button" data-transition="flip">NO</a>
             <!-- 					<a href="#ayuda"data-role="button"data-transition="flip"data-icon="info">Ayuda</a>
- --></div>
+ -->
+        </div>
 
     </div>
 
@@ -563,8 +588,8 @@
 
 
         <select name="listaalumnos" id="listaalumnos" data-theme="b" onChange="cargarTestAlumno()">
-				<option  value='--' >Seleccione un Alumno...</option>
-			</select>
+            <option value='--'>Seleccione un Alumno...</option>
+        </select>
 
         <table data-role="table" data-theme="b" id="tablaresultados" data-mode="columntoggle" class="ui-responsive ui-body-d table-stripe" data-column-btn-text="Selecione Filtro" data-column-btn-theme="b">
             <thead>
