@@ -346,7 +346,8 @@ offsetRef.on("value", damefechayhora, errorfecha);
 
 function damefechayhora(snap) {
     offset = snap.val();
-    timestamp = new Date().getTime() + offset;
+    // timestamp = new Date().getTime() + offset;
+    timestamp = snapshot.get('created_at');
     //	timestamp=db.Timestamp;
 
 
