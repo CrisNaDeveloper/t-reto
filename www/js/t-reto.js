@@ -352,7 +352,7 @@ function damefechayhora(snap) {
 
 
 
-    var d = new Date(timestamp);
+    var d = new Date(timestamp.toDate());
     var day = d.getDate();
     var month = d.getMonth() + 1;
     var year = d.getFullYear();
