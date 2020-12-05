@@ -336,7 +336,7 @@ function otramaneralogin() {
 }
 
 var fechayhora;
-var timestamp;
+
 var offset;
 
 
@@ -348,12 +348,13 @@ offsetRef.on("value", damefechayhora, errorfecha);
 function damefechayhora(snap) {
     offset = snap.val();
     // timestamp = new Date().getTime() + offset;
-    timestamp = snapshot.get('created_at');
+    const timestamp = snapshot.get('created_at');
     //	timestamp=db.Timestamp;
+    const timestamp = snapshot.get('created_at');
+    const d = timestamp.toDate();
 
 
-
-    var d = new Date(timestamp.toDate());
+    // var d = new Date(timestamp.toDate());
     var day = d.getDate();
     var month = d.getMonth() + 1;
     var year = d.getFullYear();
