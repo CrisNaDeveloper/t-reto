@@ -13,9 +13,7 @@ var config = {
     storageBucket: "t-reto-f6198.appspot.com",
     messagingSenderId: "846934377292",
     appId: "1:846934377292:web:564c96fbe90b675c1d45e9",
-    measurementId: "G-1NYT902SQD",
-    timestampsInSnapshots: true
-
+    measurementId: "G-1NYT902SQD"
 }
 
 
@@ -26,7 +24,7 @@ if (!firebase.apps.length) {
 
     otramaneralogin();
     var db = firebase.firestore();
-
+    db.settings({ timestampsInSnapshots: true });
     //logarse("email");
     authenticate().then(loadClient);
 
@@ -340,12 +338,14 @@ var fechayhora;
 var offset;
 
 
-db.settings({ timestampsInSnapshots: true });
 
-var offsetRef = firebase.database().ref(".info/serverTimeOffset");
-offsetRef.on("value", damefechayhora, errorfecha);
+
+//var offsetRef = firebase.database().ref(".info/serverTimeOffset");
+//offsetRef.on("value", damefechayhora, errorfecha);
 
 function damefechayhora(snap) {
+
+
     offset = snap.val();
     //const timestamp = new Date().getTime() + offset;
     const timestamp = snapshot.get('created_at');
@@ -567,6 +567,14 @@ function crear_test() {
             } else {
 
                 if (nom != "") {
+
+                    offset = snap.val();
+                    //const timestamp = new Date().getTime() + offset;
+                    const timestamp1 = snapshot.get('created_at');
+                    //	timestamp=db.Timestamp;
+
+                    const d1 = timestamp.toDate();
+                    alert(d1);
                     alert(timestamp);
                     db.collection("tests").add({
                             nombre: nom,
@@ -575,7 +583,7 @@ function crear_test() {
                             premio: valorpremio,
                             repetir: valorrepetir,
                             usuario_creador: usu,
-                            timestamp: timestamp,
+                            timestamp: timestamp1,
                             id_categoria: valorcategoria,
                             id_edad: valoredad
 
